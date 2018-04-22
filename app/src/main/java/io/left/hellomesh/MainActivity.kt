@@ -4,6 +4,7 @@ import android.app.Activity
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 
@@ -91,14 +92,14 @@ final class MainActivity : Activity(), MeshStateListener {
                 mm.on(PEER_CHANGED, { this.handlePeerChanged(it) })
 
                 // Enable buttons now that mesh is connected.
-                val btnConfigure = findViewById(R.id.btnConfigure)
-                val btnSend = findViewById(R.id.btnHello)
+                val btnConfigure = findViewById<Button>(R.id.btnConfigure)
+                val btnSend = findViewById<Button>(R.id.btnHello)
                 btnConfigure.setEnabled(true)
                 btnSend.setEnabled(true)
             } catch (e: RightMeshException) {
                 val status = "Error initializing the library" + e.toString()
                 Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show()
-                val txtStatus = findViewById(R.id.txtStatus)
+                val txtStatus = findViewById<TextView>(R.id.txtStatus)
                 txtStatus.setText(status)
                 return
             }
@@ -119,7 +120,7 @@ final class MainActivity : Activity(), MeshStateListener {
         for (user in users) {
             status.append(user.toString()).append("\n")
         }
-        val txtStatus = findViewById(R.id.txtStatus)
+        val txtStatus = findViewById<TextView>(R.id.txtStatus)
         txtStatus.setText(status.toString())
     }
 
