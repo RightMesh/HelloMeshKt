@@ -171,7 +171,7 @@ final class MainActivity : Activity(), MeshStateListener {
     fun sendHello(v: View) {
         for (receiver in users) {
             val msg = "Hello to: " + receiver + " from" + mm.getUuid()
-            MeshUtility.Log(this.getClass().getCanonicalName(), "MSG: $msg")
+            MeshUtility.Log(LOG_TAG, "MSG: $msg")
             val testData = msg.getBytes()
             mm.sendDataReliable(receiver, HELLO_PORT, testData)
         }
@@ -186,13 +186,14 @@ final class MainActivity : Activity(), MeshStateListener {
         try {
             mm.showSettingsActivity()
         } catch (ex: RightMeshException) {
-            MeshUtility.Log(this.getClass().getCanonicalName(), "Service not connected")
+            MeshUtility.Log(LOG_TAG, "Service not connected")
         }
 
     }
 
     companion object {
         // Port to bind app to.
-        private val HELLO_PORT = 9876
+        private const val HELLO_PORT = 9876
+        private val LOG_TAG = MainActivity.javaClass.canonicalName
     }
 }
