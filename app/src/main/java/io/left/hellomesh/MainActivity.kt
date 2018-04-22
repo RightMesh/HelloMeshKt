@@ -152,9 +152,9 @@ final class MainActivity : Activity(), MeshStateListener {
     private fun handlePeerChanged(e: RightMeshEvent) {
         // Update peer list.
         val event = e as PeerChangedEvent
-        if (event.state !== REMOVED && !users.contains(event.peerUuid)) {
+        if (event.state != REMOVED && !users.contains(event.peerUuid)) {
             users.add(event.peerUuid)
-        } else if (event.state === REMOVED) {
+        } else if (event.state == REMOVED) {
             users.remove(event.peerUuid)
         }
 
