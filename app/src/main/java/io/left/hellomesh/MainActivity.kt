@@ -26,13 +26,13 @@ import io.left.rightmesh.mesh.MeshManager.DATA_RECEIVED
 import io.left.rightmesh.mesh.MeshManager.PEER_CHANGED
 import io.left.rightmesh.mesh.MeshManager.REMOVED
 
-class MainActivity : Activity(), MeshStateListener {
+final class MainActivity : Activity(), MeshStateListener {
 
     // MeshManager instance - interface to the mesh network.
-    internal var mm: AndroidMeshManager? = null
+    private var mm: AndroidMeshManager? = null
 
     // Set to keep track of peers connected to the mesh.
-    internal var users: HashSet<MeshID> = HashSet()
+    private var users: HashSet<MeshID> = HashSet()
 
     /**
      * Called when app first opens, initializes [AndroidMeshManager] reference (which will
@@ -40,8 +40,7 @@ class MainActivity : Activity(), MeshStateListener {
      *
      * @param savedInstanceState passed from operating system
      */
-    @Override
-    protected fun onCreate(savedInstanceState: Bundle) {
+    protected override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -51,8 +50,7 @@ class MainActivity : Activity(), MeshStateListener {
     /**
      * Called when activity is on screen.
      */
-    @Override
-    protected fun onResume() {
+    protected override fun onResume() {
         try {
             super.onResume()
             mm!!.resume()
@@ -66,8 +64,7 @@ class MainActivity : Activity(), MeshStateListener {
      * Called when the app is being closed (not just navigated away from). Shuts down
      * the [AndroidMeshManager] instance.
      */
-    @Override
-    protected fun onDestroy() {
+    protected override fun onDestroy() {
         try {
             super.onDestroy()
             mm!!.stop()
@@ -84,8 +81,7 @@ class MainActivity : Activity(), MeshStateListener {
      * @param uuid our own user id on first detecting
      * @param state state which indicates SUCCESS or an error code
      */
-    @Override
-    fun meshStateChanged(uuid: MeshID, state: Int) {
+    public override fun meshStateChanged(uuid: MeshID, state: Int) {
         if (state == MeshStateListener.SUCCESS) {
             try {
                 // Binds this app to MESH_PORT.
