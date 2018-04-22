@@ -172,7 +172,7 @@ final class MainActivity : Activity(), MeshStateListener {
         for (receiver in users) {
             val msg = "Hello to: " + receiver + " from" + mm.getUuid()
             MeshUtility.Log(LOG_TAG, "MSG: $msg")
-            val testData = msg.getBytes()
+            val testData = msg.toByteArray()
             mm.sendDataReliable(receiver, HELLO_PORT, testData)
         }
     }
