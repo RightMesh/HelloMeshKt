@@ -38,7 +38,7 @@ final class MainActivity : Activity(), MeshStateListener {
      *
      * @param savedInstanceState passed from operating system
      */
-    protected override fun onCreate(savedInstanceState: Bundle) {
+    protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
