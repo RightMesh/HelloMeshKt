@@ -29,7 +29,7 @@ import io.left.rightmesh.mesh.MeshManager.REMOVED
 final class MainActivity : Activity(), MeshStateListener {
 
     // MeshManager instance - interface to the mesh network.
-    private var mm: AndroidMeshManager? = null
+    private lateinit var mm: AndroidMeshManager
 
     // Set to keep track of peers connected to the mesh.
     private var users: HashSet<MeshID> = HashSet()
@@ -53,7 +53,7 @@ final class MainActivity : Activity(), MeshStateListener {
     protected override fun onResume() {
         try {
             super.onResume()
-            mm!!.resume()
+            mm.resume()
         } catch (e: MeshService.ServiceDisconnectedException) {
             e.printStackTrace()
         }
@@ -67,7 +67,7 @@ final class MainActivity : Activity(), MeshStateListener {
     protected override fun onDestroy() {
         try {
             super.onDestroy()
-            mm!!.stop()
+            mm.stop()
         } catch (e: MeshService.ServiceDisconnectedException) {
             e.printStackTrace()
         }
@@ -86,11 +86,11 @@ final class MainActivity : Activity(), MeshStateListener {
             try {
                 // Binds this app to MESH_PORT.
                 // This app will now receive all events generated on that port.
-                mm!!.bind(HELLO_PORT)
+                mm.bind(HELLO_PORT)
 
                 // Subscribes handlers to receive events from the mesh.
-                mm!!.on(DATA_RECEIVED, ???({ this.handleDataReceived(it) }))
-                mm!!.on(PEER_CHANGED, ???({ this.handlePeerChanged(it) }))
+                mm.on(DATA_RECEIVED, { this.handleDataReceived(it) })
+                mm.on(PEER_CHANGED, ???({ this.handlePeerChanged(it) }))
 
                 // Enable buttons now that mesh is connected.
                 val btnConfigure = findViewById(R.id.btnConfigure)
@@ -117,7 +117,7 @@ final class MainActivity : Activity(), MeshStateListener {
      * Update the [TextView] with a list of all peers.
      */
     private fun updateStatus() {
-        val status = StringBuilder("uuid: " + mm!!.getUuid().toString() + "\npeers:\n")
+        val status = StringBuilder("uuid: " + mm.getUuid().toString() + "\npeers:\n")
         for (user in users) {
             status.append(user.toString()).append("\n")
         }
@@ -174,7 +174,7 @@ final class MainActivity : Activity(), MeshStateListener {
             val msg = "Hello to: " + receiver + " from" + mm!!.getUuid()
             MeshUtility.Log(this.getClass().getCanonicalName(), "MSG: $msg")
             val testData = msg.getBytes()
-            mm!!.sendDataReliable(receiver, HELLO_PORT, testData)
+            mm.sendDataReliable(receiver, HELLO_PORT, testData)
         }
     }
 
@@ -183,9 +183,9 @@ final class MainActivity : Activity(), MeshStateListener {
      *
      * @param v calling view
      */
-    fun configure(v: View) {
+    private fun configure(v: View) {
         try {
-            mm!!.showSettingsActivity()
+            mm.showSettingsActivity()
         } catch (ex: RightMeshException) {
             MeshUtility.Log(this.getClass().getCanonicalName(), "Service not connected")
         }
