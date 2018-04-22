@@ -1,12 +1,9 @@
 package io.left.hellomesh
 
 import android.app.Activity
-import android.media.Ringtone
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 
@@ -45,6 +42,7 @@ final class MainActivity : Activity(), MeshStateListener {
         setContentView(R.layout.activity_main)
 
         mm = AndroidMeshManager.getInstance(this@MainActivity, this@MainActivity)
+
     }
 
     /**
