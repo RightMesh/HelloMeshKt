@@ -169,7 +169,7 @@ final class MainActivity : Activity(), MeshStateListener {
     @Throws(RightMeshException::class)
     fun sendHello(v: View) {
         for (receiver in users) {
-            val msg = "Hello to: " + receiver + " from" + mm!!.getUuid()
+            val msg = "Hello to: " + receiver + " from" + mm.getUuid()
             MeshUtility.Log(this.getClass().getCanonicalName(), "MSG: $msg")
             val testData = msg.getBytes()
             mm.sendDataReliable(receiver, HELLO_PORT, testData)
