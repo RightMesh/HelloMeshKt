@@ -98,7 +98,7 @@ final class MainActivity : Activity(), MeshStateListener {
                 btnSend.setEnabled(true)
             } catch (e: RightMeshException) {
                 val status = "Error initializing the library" + e.toString()
-                Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.applicationContext, status, Toast.LENGTH_SHORT).show()
                 val txtStatus = findViewById<TextView>(R.id.txtStatus)
                 txtStatus.setText(status)
                 return
@@ -116,7 +116,7 @@ final class MainActivity : Activity(), MeshStateListener {
      * Update the [TextView] with a list of all peers.
      */
     private fun updateStatus() {
-        val status = StringBuilder("uuid: " + mm.getUuid().toString() + "\npeers:\n")
+        val status = StringBuilder("uuid: " + mm.uuid.toString() + "\npeers:\n")
         for (user in users) {
             status.append(user.toString()).append("\n")
         }
@@ -194,6 +194,6 @@ final class MainActivity : Activity(), MeshStateListener {
     companion object {
         // Port to bind app to.
         private const val HELLO_PORT = 9876
-        private val LOG_TAG = MainActivity.javaClass.canonicalName
+        private val LOG_TAG = MainActivity::class.java.canonicalName
     }
 }
