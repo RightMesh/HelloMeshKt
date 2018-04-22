@@ -88,7 +88,7 @@ final class MainActivity : Activity(), MeshStateListener {
 
                 // Subscribes handlers to receive events from the mesh.
                 mm.on(DATA_RECEIVED, { this.handleDataReceived(it) })
-                mm.on(PEER_CHANGED, ???({ this.handlePeerChanged(it) }))
+                mm.on(PEER_CHANGED, { this.handlePeerChanged(it) })
 
                 // Enable buttons now that mesh is connected.
                 val btnConfigure = findViewById(R.id.btnConfigure)
@@ -158,7 +158,7 @@ final class MainActivity : Activity(), MeshStateListener {
         }
 
         // Update display.
-        runOnUiThread(???({ this.updateStatus() }))
+        runOnUiThread({ this.updateStatus() })
     }
 
     /**
