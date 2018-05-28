@@ -12,7 +12,7 @@ import java.util.HashSet
 
 import io.left.rightmesh.android.AndroidMeshManager
 import io.left.rightmesh.android.MeshService
-import io.left.rightmesh.id.MeshID
+import io.left.rightmesh.id.MeshId
 import io.left.rightmesh.mesh.MeshManager
 import io.left.rightmesh.mesh.MeshManager.PeerChangedEvent
 import io.left.rightmesh.mesh.MeshManager.RightMeshEvent
@@ -24,13 +24,13 @@ import io.left.rightmesh.mesh.MeshManager.DATA_RECEIVED
 import io.left.rightmesh.mesh.MeshManager.PEER_CHANGED
 import io.left.rightmesh.mesh.MeshManager.REMOVED
 
-final class MainActivity : Activity(), MeshStateListener {
+class MainActivity : Activity(), MeshStateListener {
 
     // MeshManager instance - interface to the mesh network.
     private lateinit var mm: AndroidMeshManager
 
     // Set to keep track of peers connected to the mesh.
-    private var users: HashSet<MeshID> = HashSet()
+    private var users: HashSet<MeshId> = HashSet()
 
     /**
      * Called when app first opens, initializes [AndroidMeshManager] reference (which will
@@ -38,39 +38,36 @@ final class MainActivity : Activity(), MeshStateListener {
      *
      * @param savedInstanceState passed from operating system
      */
-    protected override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mm = AndroidMeshManager.getInstance(this@MainActivity, this@MainActivity)
-
     }
 
     /**
      * Called when activity is on screen.
      */
-    protected override fun onResume() {
+    override fun onResume() {
         try {
             super.onResume()
             mm.resume()
         } catch (e: MeshService.ServiceDisconnectedException) {
             e.printStackTrace()
         }
-
     }
 
     /**
      * Called when the app is being closed (not just navigated away from). Shuts down
      * the [AndroidMeshManager] instance.
      */
-    protected override fun onDestroy() {
+    override fun onDestroy() {
         try {
             super.onDestroy()
             mm.stop()
         } catch (e: MeshService.ServiceDisconnectedException) {
             e.printStackTrace()
         }
-
     }
 
     /**
@@ -80,7 +77,7 @@ final class MainActivity : Activity(), MeshStateListener {
      * @param uuid our own user id on first detecting
      * @param state state which indicates SUCCESS or an error code
      */
-    public override fun meshStateChanged(uuid: MeshID, state: Int) {
+    override fun meshStateChanged(uuid: MeshId, state: Int) {
         if (state == MeshStateListener.SUCCESS) {
             try {
                 // Binds this app to MESH_PORT.
@@ -94,16 +91,15 @@ final class MainActivity : Activity(), MeshStateListener {
                 // Enable buttons now that mesh is connected.
                 val btnConfigure = findViewById<Button>(R.id.btnConfigure)
                 val btnSend = findViewById<Button>(R.id.btnHello)
-                btnConfigure.setEnabled(true)
-                btnSend.setEnabled(true)
+                btnConfigure.isEnabled = true
+                btnSend.isEnabled = true
             } catch (e: RightMeshException) {
                 val status = "Error initializing the library" + e.toString()
                 Toast.makeText(this.applicationContext, status, Toast.LENGTH_SHORT).show()
                 val txtStatus = findViewById<TextView>(R.id.txtStatus)
-                txtStatus.setText(status)
+                txtStatus.text = status
                 return
             }
-
         }
 
         // Update display on successful calls (i.e. not FAILURE or DISABLED).
@@ -121,7 +117,7 @@ final class MainActivity : Activity(), MeshStateListener {
             status.append(user.toString()).append("\n")
         }
         val txtStatus = findViewById<TextView>(R.id.txtStatus)
-        txtStatus.setText(status.toString())
+        txtStatus.text = status.toString()
     }
 
     /**
@@ -170,7 +166,7 @@ final class MainActivity : Activity(), MeshStateListener {
     @Throws(RightMeshException::class)
     fun sendHello(v: View) {
         for (receiver in users) {
-            val msg = "Hello to: " + receiver + " from" + mm.getUuid()
+            val msg = "Hello to: " + receiver + " from" + mm.uuid
             MeshUtility.Log(LOG_TAG, "MSG: $msg")
             val testData = msg.toByteArray()
             mm.sendDataReliable(receiver, HELLO_PORT, testData)
@@ -182,13 +178,12 @@ final class MainActivity : Activity(), MeshStateListener {
      *
      * @param v calling view
      */
-    private fun configure(v: View) {
+    fun configure(v: View) {
         try {
             mm.showSettingsActivity()
         } catch (ex: RightMeshException) {
             MeshUtility.Log(LOG_TAG, "Service not connected")
         }
-
     }
 
     companion object {
