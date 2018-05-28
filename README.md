@@ -17,9 +17,9 @@ an event when data is received from another device running the same app as you.
 
 RightMesh abstracts away the idea of IPv4, IPv6 addresses, MAC addresses etc., since any given
 device may have any number of connections into the mesh at a given moment. Instead every device has
-a MeshID which is used in place of these other types of addresses. 
+a `MeshId` which is used in place of these other types of addresses. 
 
-The MeshID is actually an Ethereum compatible account which will be used very soon to keep track
+The `MeshId` is actually an Ethereum compatible account which will be used very soon to keep track
 of how much data has been forwarded and received so that people can be incentivized to use the mesh.
 
 You can send byte arrays of data to other mesh devices and RightMesh will handle reliable
@@ -34,12 +34,13 @@ received on the other side, even when the network grows in size, and despite the
 the devices.
 
 ## Documentation
-Our API reference is available at [https://developer.rightmesh.io/api/](https://developer.rightmesh.io/api/)
+Our API reference is available at https://developer.rightmesh.io/api/
 
-A detailed step-by-step breakdown of how to get started can be found in our reference guide: [https://developer.rightmesh.io/reference/](https://developer.rightmesh.io/reference/)
+A detailed step-by-step breakdown of how to get started can be found in our reference guide:
+https://developer.rightmesh.io/reference/
 
 In order for this sample app to work, you need to obtain RightMesh developer account, and API key
-from our developer website: [https://developer.rightmesh.io/](developer.rightmesh.io)
+from our developer website: https://developer.rightmesh.io/
 
 Set your username, password and key in the app [build.gradle](app/build.gradle) file. The main
 source code is available in [MainActivity.java](app/src/main/java/io/left/hellomesh/MainActivity.java)
