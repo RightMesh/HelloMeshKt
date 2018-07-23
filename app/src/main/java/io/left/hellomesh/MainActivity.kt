@@ -52,7 +52,7 @@ class MainActivity : Activity(), MeshStateListener {
         try {
             super.onResume()
             mm.resume()
-        } catch (e: MeshService.ServiceDisconnectedException) {
+        } catch (e: RightMeshException.RightMeshServiceDisconnectedException) {
             e.printStackTrace()
         }
     }
@@ -65,7 +65,7 @@ class MainActivity : Activity(), MeshStateListener {
         try {
             super.onDestroy()
             mm.stop()
-        } catch (e: MeshService.ServiceDisconnectedException) {
+        } catch (e: RightMeshException.RightMeshServiceDisconnectedException) {
             e.printStackTrace()
         }
     }
