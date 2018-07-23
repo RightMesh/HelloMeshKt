@@ -25,6 +25,11 @@ import io.left.rightmesh.mesh.MeshManager.PEER_CHANGED
 import io.left.rightmesh.mesh.MeshManager.REMOVED
 
 class MainActivity : Activity(), MeshStateListener {
+    companion object {
+        // TODO: this port must match the port assigned, on developer.rightmesh.io, to your key
+        private const val HELLO_PORT = 9876
+        private val LOG_TAG = MainActivity::class.java.canonicalName
+    }
 
     // MeshManager instance - interface to the mesh network.
     private lateinit var mm: AndroidMeshManager
@@ -42,6 +47,10 @@ class MainActivity : Activity(), MeshStateListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // TODO: when testing, we suggest using rightmesh-library-dev in app:build.gradle,
+        // and specifying a pattern as the third argument to this call. This will isolate
+        // your devices so they won't try to connect to the network of the developer sitting
+        // beside you :D
         mm = AndroidMeshManager.getInstance(this@MainActivity, this@MainActivity)
     }
 
@@ -184,11 +193,5 @@ class MainActivity : Activity(), MeshStateListener {
         } catch (ex: RightMeshException) {
             MeshUtility.Log(LOG_TAG, "Service not connected")
         }
-    }
-
-    companion object {
-        // Port to bind app to.
-        private const val HELLO_PORT = 9876
-        private val LOG_TAG = MainActivity::class.java.canonicalName
     }
 }
