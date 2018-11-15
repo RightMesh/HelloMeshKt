@@ -11,18 +11,17 @@ import android.widget.Toast
 import java.util.HashSet
 
 import io.left.rightmesh.android.AndroidMeshManager
-import io.left.rightmesh.android.MeshService
 import io.left.rightmesh.id.MeshId
 import io.left.rightmesh.mesh.MeshManager
 import io.left.rightmesh.mesh.MeshManager.PeerChangedEvent
 import io.left.rightmesh.mesh.MeshManager.RightMeshEvent
 import io.left.rightmesh.mesh.MeshStateListener
-import io.left.rightmesh.util.MeshUtility
 import io.left.rightmesh.util.RightMeshException
 
 import io.left.rightmesh.mesh.MeshManager.DATA_RECEIVED
 import io.left.rightmesh.mesh.MeshManager.PEER_CHANGED
 import io.left.rightmesh.mesh.MeshManager.REMOVED
+import io.left.rightmesh.util.Logger
 
 class MainActivity : Activity(), MeshStateListener {
     companion object {
@@ -176,7 +175,7 @@ class MainActivity : Activity(), MeshStateListener {
     fun sendHello(v: View) {
         for (receiver in users) {
             val msg = "Hello to: " + receiver + " from" + mm.uuid
-            MeshUtility.Log(LOG_TAG, "MSG: $msg")
+            Logger.info(LOG_TAG, "MSG: $msg")
             val testData = msg.toByteArray()
             mm.sendDataReliable(receiver, HELLO_PORT, testData)
         }
@@ -191,7 +190,7 @@ class MainActivity : Activity(), MeshStateListener {
         try {
             mm.showSettingsActivity()
         } catch (ex: RightMeshException) {
-            MeshUtility.Log(LOG_TAG, "Service not connected")
+            Logger.info(LOG_TAG, "Service not connected")
         }
     }
 }
