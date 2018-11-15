@@ -1,58 +1,39 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-
-buildscript {
-    ext {
-        // define these variables in your personal ~/.gradle/gradle.properties
-        // for example:
-        /*
-            rightmesh_artifactory_username=<username>
-            rightmesh_artifactory_password=<hash of your developer portal password>
-            rightmesh_hellomesh_key=<some key that you have access to>
-        */
-        artifactory_app_username = "${rightmesh_artifactory_username}"
-        artifactory_app_password = "${rightmesh_artifactory_password}"
-        artifactory_app_key = "${rightmesh_hellomeshkt_key}"
-    }
-    repositories {
-        maven {
-            url "https://research.rightmesh.io/artifactory/libs-local"
-            credentials {
-                username artifactory_app_username
-                password artifactory_app_password
-            }
-        }
-        google()
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath 'io.left.rightmesh:rightmesh-plugin:1.6'
-    }
+plugins {
+    id 'com.android.application'
+    id 'io.left.rightmesh.rightmesh-plugin' version '1.8.1'
 }
-apply plugin: 'io.left.rightmesh.rightmesh-plugin'
+
+rightmesh {
+    //specified in your global gradle.properties files
+    appKey = rightmesh_ripple_key
+    username = rightmesh_build_username
+    password = rightmesh_build_password
+
+}
+
 preBuild.dependsOn("rightmesh")
 
 repositories {
     mavenCentral()
-    jcenter()
-    google()
     maven {
-        url "https://research.rightmesh.io/artifactory/libs-local"
+        url 'https://artifactory.rightmesh.io/artifactory/maven'
         credentials {
-            username artifactory_app_username
-            password artifactory_app_password
+            username rightmesh_build_username
+            password rightmesh_build_password
         }
+    }
+    maven{
+        url "https://dl.bintray.com/ethereum/maven"
     }
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "io.left.hellomesh"
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -70,13 +51,16 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
-    implementation ('io.left.rightmesh:rightmesh-library:0.8.0')
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation ('io.left.rightmesh:lib-rightmesh-android:0.10.0')
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
